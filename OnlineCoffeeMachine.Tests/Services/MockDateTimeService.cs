@@ -5,7 +5,7 @@ using OnlineCoffeeMachine.Core;
 
 namespace OnlineCoffeeMachine.Tests.Services
 {
-    public class MockDateTimeService : IDateTimeProvider
+    public class MockDateTimeService : IDateTimeService
     {
         private readonly DateTimeOffset _fixedDate;
 

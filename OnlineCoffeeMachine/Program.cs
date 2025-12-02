@@ -9,8 +9,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
-builder.Services.AddSingleton<IDateTimeProvider, DateTimeService>();
+builder.Services.AddSingleton<IDateTimeService, DateTimeService>();
 builder.Services.AddSingleton<ICoffeeMachineHandler, CoffeeMachineHandler>();
+builder.Services.AddHttpClient<IWeatherService, WeatherService>();
 
 var app = builder.Build();
 

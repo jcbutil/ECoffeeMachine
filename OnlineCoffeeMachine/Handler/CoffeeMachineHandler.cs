@@ -1,19 +1,22 @@
-﻿using OnlineCoffeeMachine.Core;
-using System.Threading; // Important: You need this namespace for Interlocked
+﻿using System.Threading; // Important: You need this namespace for Interlocked
+using OnlineCoffeeMachine.Core;
+using OnlineCoffeeMachine.Services;
 
 namespace OnlineCoffeeMachine.Handler
 {
 	public class CoffeeMachineHandler : ICoffeeMachineHandler
 	{
 		private int brewCount = 0;
-		private readonly IDateTimeProvider _dateTimeProvider;
+		private readonly IDateTimeService _dateTimeProvider;
+		private readonly IWeatherService _weatherService;
 
-		public CoffeeMachineHandler(IDateTimeProvider dateTimeProvider)
+		public CoffeeMachineHandler(IDateTimeService dateTimeService, IWeatherService weatherService)
 		{
-			_dateTimeProvider = dateTimeProvider;
+			_dateTimeProvider = dateTimeService;
+			_weatherService = weatherService;
 		}
 
-		public Task<(int statusCode, object? response)> BrewCoffeeAsync()
+		public async Task<(int statusCode, object? response)> BrewCoffeeAsync()
 		{
 			// Ensure thread-safe increment of brewCount
 			int currentBrewCount = Interlocked.Increment(ref brewCount);
@@ -23,23 +26,38 @@ namespace OnlineCoffeeMachine.Handler
 			// Check if current date is April 1st
 			if (dateTimeNow.Month == 4 && dateTimeNow.Day == 1)
 			{
-				return Task.FromResult((418, (object?)null));
+				return (418, (object?)null);
 			}
 
 			// Return 503 error every 5th call
 			if (currentBrewCount % 5 == 0)
 			{
-				return Task.FromResult((503, (object?)null));
+				return (503, (object?)null);
+			}
+
+			double currentTemp = await _weatherService.GetCurrentTemperatureAsync();
+
+			const double HotTemperatureThreshold = 30.0;
+
+			string coffeeMessage;
+
+			if (currentTemp > HotTemperatureThreshold)
+			{
+				coffeeMessage = "Your refreshing iced coffee is ready";
+			}
+			else
+			{
+				coffeeMessage = "Your piping hot coffee is ready";
 			}
 
 			// Return normal response
 			var response = new
 			{
-				message = "Your piping hot coffee is ready",
+				message = coffeeMessage,
 				prepared = dateTimeNow.ToString("yyyy-MM-ddTHH:mm:sszzz")
 			};
 
-			return Task.FromResult((200, (object?)response));
+			return (200, (object?)response);
 		}
 	}
 }
