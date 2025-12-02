@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineCoffeeMachine.Handler.Interface;
+using OnlineCoffeeMachine.Core;
 
 namespace OnlineCoffeeMachine.Controller
 {
@@ -7,17 +7,17 @@ namespace OnlineCoffeeMachine.Controller
 	[Route("CoffeeMachine")]
 	public class CoffeeMachineController : ControllerBase
     {
-        private readonly ICoffeeMachineHandler _coffeeService;
+        private readonly ICoffeeMachineHandler _coffeeHandler;
 
-        public CoffeeMachineController(ICoffeeMachineHandler coffeeService)
+        public CoffeeMachineController(ICoffeeMachineHandler coffeeHandler)
         {
-            _coffeeService = coffeeService;
+            _coffeeHandler = coffeeHandler;
         }
 
 		[HttpGet("/brew-coffee")]
 		public async Task<IActionResult> BrewCoffee()
         {
-            var (statusCode, response) = await _coffeeService.BrewCoffeeAsync();
+            var (statusCode, response) = await _coffeeHandler.BrewCoffeeAsync();
             if (response == null)
             {
                 Response.StatusCode = statusCode;

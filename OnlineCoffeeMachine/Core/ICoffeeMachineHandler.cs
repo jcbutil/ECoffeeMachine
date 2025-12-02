@@ -1,4 +1,4 @@
-﻿namespace OnlineCoffeeMachine.Handler.Interface
+﻿namespace OnlineCoffeeMachine.Core
 {
     public interface ICoffeeMachineHandler
     {

@@ -1,5 +1,6 @@
-using OnlineCoffeeMachine.Handler.Interface;
+using OnlineCoffeeMachine.Core;
 using OnlineCoffeeMachine.Handler;
+using OnlineCoffeeMachine.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+
+builder.Services.AddSingleton<IDateTimeProvider, DateTimeService>();
 builder.Services.AddSingleton<ICoffeeMachineHandler, CoffeeMachineHandler>();
 
 var app = builder.Build();
