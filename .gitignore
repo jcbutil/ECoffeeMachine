@@ -1,0 +1,14 @@
+# Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+bin/
+obj/
+
+# Packages
+**/packages/
+.nuxt/
