@@ -4,8 +4,8 @@ using OnlineCoffeeMachine.Handler.Interface;
 namespace OnlineCoffeeMachine.Controller
 {
     [ApiController]
-    [Route("[controller]")]
-    public class CoffeeMachineController : ControllerBase
+	[Route("CoffeeMachine")]
+	public class CoffeeMachineController : ControllerBase
     {
         private readonly ICoffeeMachineHandler _coffeeService;
 
@@ -14,12 +14,15 @@ namespace OnlineCoffeeMachine.Controller
             _coffeeService = coffeeService;
         }
 
-        [HttpGet("brew-coffee")]
-        public async Task<IActionResult> BrewCoffee()
+		[HttpGet("/brew-coffee")]
+		public async Task<IActionResult> BrewCoffee()
         {
             var (statusCode, response) = await _coffeeService.BrewCoffeeAsync();
             if (response == null)
-                return StatusCode(statusCode);
+            {
+                Response.StatusCode = statusCode;
+                return new EmptyResult();
+            }
 
             return StatusCode(statusCode, response);
         }

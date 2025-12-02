@@ -3,10 +3,11 @@ using OnlineCoffeeMachine.Handler;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add services to the container
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+builder.Services.AddSingleton<ICoffeeMachineHandler, CoffeeMachineHandler>();
 
 var app = builder.Build();
 
@@ -18,10 +19,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// Add services to the container.
-builder.Services.AddControllers();
-builder.Services.AddSingleton<ICoffeeMachineHandler, CoffeeMachineHandler>();
+app.MapControllers();
 
 app.Run();
 
