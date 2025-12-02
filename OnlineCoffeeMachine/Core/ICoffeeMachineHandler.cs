@@ -2,6 +2,6 @@
 {
     public interface ICoffeeMachineHandler
     {
-        Task<(int statusCode, object? response)> BrewCoffeeAsync();
+        Task<(int statusCode, object? response)> BrewCoffeeAsync(string userCity);
     }
 }

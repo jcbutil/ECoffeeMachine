@@ -7,16 +7,23 @@ namespace OnlineCoffeeMachine.Tests.Services
 {
 	public class MockWeatherService : IWeatherService
 	{
-		private readonly double _temperature;
+		private readonly double mockTemp;
+		private readonly double mockLatitude = 10.0;
+		private readonly double mockLongitude = 10.0;
 
 		public MockWeatherService(double temperature)
 		{
-			_temperature = temperature;
+			mockTemp = temperature;
 		}
 
-		public Task<double> GetCurrentTemperatureAsync()
+		public Task<double> GetCurrentTemperatureAsync(string userCity)
 		{
-			return Task.FromResult(_temperature);
+			return Task.FromResult(mockTemp);
+		}
+
+		public Task<(double latitude, double longitude)> GetUserCityLocationAsync(string userCity)
+		{
+			return Task.FromResult((mockLatitude, mockLongitude));
 		}
 	}
 }

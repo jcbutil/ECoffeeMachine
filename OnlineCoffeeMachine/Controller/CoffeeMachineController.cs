@@ -15,16 +15,27 @@ namespace OnlineCoffeeMachine.Controller
         }
 
 		[HttpGet("/brew-coffee")]
-		public async Task<IActionResult> BrewCoffee()
+		public async Task<IActionResult> BrewCoffee([FromQuery] string userCity)
         {
-            var (statusCode, response) = await _coffeeHandler.BrewCoffeeAsync();
-            if (response == null)
+            try
             {
-                Response.StatusCode = statusCode;
-                return new EmptyResult();
-            }
+				var (statusCode, response) = await _coffeeHandler.BrewCoffeeAsync(userCity);
+				if (response == null)
+				{
+					Response.StatusCode = statusCode;
+					return new EmptyResult();
+				}
 
-            return StatusCode(statusCode, response);
+				return StatusCode(statusCode, response);
+			}
+            catch (Exception ex)
+            {
+				return StatusCode(500, new
+				{
+					message = ex.Message
+				});
+			}
+            
         }
     }
 }
