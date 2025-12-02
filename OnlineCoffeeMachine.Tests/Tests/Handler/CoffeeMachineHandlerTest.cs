@@ -9,7 +9,7 @@ namespace OnlineCoffeeMachine.Tests.Tests.Handler
 	public class CoffeeMachineServiceTests
 	{
 		// For Non-April 1st scenarios
-		private readonly MockDateTimeService _normalDateProvider = new(2025, 12, 2);
+		private const double HOT_TEMP = 35.0; // Below 30C
 
 		[Fact]
 		public async Task BrewCoffee_HappyFlow_Returns200()
