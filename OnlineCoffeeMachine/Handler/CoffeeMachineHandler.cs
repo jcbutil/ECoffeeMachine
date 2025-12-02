@@ -1,5 +1,5 @@
 ﻿using OnlineCoffeeMachine.Core;
-using System.Threading; // Important: You need this namespace for Interlocked
+using System.Threading;
 
 namespace OnlineCoffeeMachine.Handler
 {
